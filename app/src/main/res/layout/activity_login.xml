@@ -4,12 +4,9 @@
     android:orientation="vertical"
     android:background="#E6E6E6">
 
-    <TextView android:text="@string/loginPageTitle" android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/login_page_rectangle"
-        android:textSize="32dp"
-        android:textColor="#ffffff"
-        android:textAlignment="center"/>
+    <TextView android:text="@string/loginPageTitle"
+        style = "@style/loginPageTopBottom"
+        />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -60,12 +57,8 @@
             android:password= "true"/>
     </LinearLayout>
     <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        style = "@style/loginPageTopBottom"
         android:onClick="onClick"
-        android:text="Log in"
-        android:background="@drawable/login_page_rectangle"
-        android:textSize="32dp"
-        android:textColor="#ffffff"/>
+        android:text="Log in"/>
 
 </LinearLayout>

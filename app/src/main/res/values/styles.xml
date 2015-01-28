@@ -4,5 +4,15 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
+    <style name = "standardWidthHeight">
+        <item name = "android:layout_width">fill_parent</item>
+        <item name = "android:layout_height">wrap_content</item>
+    </style>
+    <style name="loginPageTopBottom" parent = "standardWidthHeight">
+        <item name = "android:background">@drawable/login_page_rectangle</item>
+        <item name = "android:textSize">32dp</item>
+        <item name = "android:textColor">#ffffff</item>
+        <item name = "android:textAlignment">center</item>
+    </style>
 
 </resources>
