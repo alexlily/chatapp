@@ -1,24 +1,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#E6E6E6">
 
     <TextView android:text="@string/loginPageTitle"
         style = "@style/loginPageTopBottom"
+        android:gravity="center"
+        android:layout_gravity="center"
         />
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_weight="1">
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/siteNameTitle"
-            android:textColor="#000000"/>
+            style = "@style/loginPageText"
+            android:text="@string/siteNameTitle"/>
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            style = "@style/loginPageSections"
             android:id="@+id/siteNameEditText"
             android:text="@string/test_sender"
             />
@@ -26,32 +27,28 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/usernameEditText"
-            android:textColor="#000000"/>
+            style = "@style/loginPageText"
+            android:text="@string/usernameEditText"/>
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            style = "@style/loginPageSections"
             android:id="@+id/usernameEditText"
             android:text="@string/test_sender"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/passwordEditText"
-            android:textColor="#000000"/>
+            style = "@style/loginPageText"
+            android:text="@string/passwordEditText"/>
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            style = "@style/loginPageSections"
             android:id="@+id/passwordEditText"
             android:text="@string/test_sender"
             android:password= "true"/>
@@ -59,6 +56,16 @@
     <Button
         style = "@style/loginPageTopBottom"
         android:onClick="onClick"
-        android:text="Log in"/>
+        android:text="Login"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 </LinearLayout>

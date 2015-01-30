@@ -9,10 +9,43 @@
         <item name = "android:layout_height">wrap_content</item>
     </style>
     <style name="loginPageTopBottom" parent = "standardWidthHeight">
-        <item name = "android:background">@drawable/login_page_rectangle</item>
+        <item name = "android:background">@drawable/title_rectangle</item>
         <item name = "android:textSize">32dp</item>
         <item name = "android:textColor">#ffffff</item>
         <item name = "android:textAlignment">center</item>
+        <item name = "android:shadowRadius">1</item>
+        <item name = "android:shadowColor">#000000</item>
+        <item name = "android:shadowDx">2</item>
+        <item name = "android:shadowDy">2</item>
+        <item name = "android:padding">5dp</item>
+        <item name = "android:layout_marginLeft">10dp</item>
+        <item name = "android:layout_marginRight">10dp</item>
+        <item name = "android:layout_marginTop">5dp</item>
+        <item name = "android:layout_marginBottom">5dp</item>
+    </style>
+    <style name = "loginPageSections" parent = "standardWidthHeight">
+        <item name = "android:textColor">#000000</item>
+        <item name = "android:background">@drawable/login_page_edittext_rectangle</item>
+        <item name = "android:padding">5dp</item>
+        <item name = "android:layout_margin">10dp</item>
+    </style>
+    <style name = "loginPageText" parent = "standardWidthHeight">
+        <item name = "android:textSize">18dp</item>
+        <item name = "android:textColor">#000000</item>
+        <item name = "android:textAlignment">center</item>
+        <item name = "android:padding">5dp</item>
     </style>
 
+    <style name = "contactPageTitle" parent = "loginPageTopBottom">
+        <item name = "android:gravity">center</item>
+        <item name = "android:background">@drawable/name_backgrounds</item>
+    </style>
+    <style name = "contactPageEntry" parent = "loginPageSections">
+        <item name = "android:textColor">#000000</item>
+        <item name = "android:layout_margin">2dp</item>
+        <item name = "android:background">@drawable/contact_page_entry</item>
+    </style>
+    <style name = "mainPageName" parent = "contactPageTitle">
+
+    </style>
 </resources>
