@@ -25,7 +25,7 @@ public class ContactPageActivity extends Activity {
         setContentView(R.layout.activity_contact_page);
 
         Intent intent = getIntent();
-        username = intent.getStringExtra(getString(R.string.username_label));
+        username = intent.getStringExtra(getString(R.string.username_label ));
 
         // add in the contact buttons
         Button contactButton;
