@@ -11,9 +11,6 @@ import android.widget.EditText;
 
 
 public class LoginActivity extends Activity {
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String SITENAME = "sitename";
 
     public String username, password, sitename;
     EditText loginEditText;
@@ -33,9 +30,9 @@ public class LoginActivity extends Activity {
         loginEditText = (EditText) findViewById(R.id.siteNameEditText);
         sitename = loginEditText.getText().toString();
 
-        intent.putExtra(USERNAME, username);
-        intent.putExtra(PASSWORD, password);
-        intent.putExtra(SITENAME, sitename);
+        intent.putExtra(getString(R.string.username_label), username);
+        intent.putExtra(getString(R.string.password_label), password);
+        intent.putExtra(getString(R.string.site_label), sitename);
 
         startActivity(intent);
     }

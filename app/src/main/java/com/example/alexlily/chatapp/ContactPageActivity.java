@@ -15,11 +15,6 @@ import android.widget.TextView;
 
 
 public class ContactPageActivity extends Activity {
-    public static final String CONTACT = "contact";
-    public static final String TYPE = "intent type";
-    public static final String newConvo = "new conversation";
-    public static final String MESSAGE = "message";
-
     String username;
 
 
@@ -30,7 +25,7 @@ public class ContactPageActivity extends Activity {
         setContentView(R.layout.activity_contact_page);
 
         Intent intent = getIntent();
-        username = intent.getStringExtra(LoginActivity.USERNAME);
+        username = intent.getStringExtra(getString(R.string.username_label));
 
         // add in the contact buttons
         Button contactButton;
@@ -52,9 +47,10 @@ public class ContactPageActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(ContactPageActivity.this, MainActivity.class);
-                    intent.putExtra(CONTACT, ((Button)v).getText());
-                    intent.putExtra(LoginActivity.USERNAME, username);
-                    intent.putExtra(TYPE, newConvo);
+                    intent.putExtra(getString(R.string.contact_label), ((Button)v).getText());
+                    intent.putExtra(getString(R.string.username_label), username);
+                    intent.putExtra(getString(R.string.message_type_label), getString(R.string.new_convo_label));
+                    intent.putExtra(getString(R.string.message_label), "from contact page to mainactivity.");
                     startActivity(intent);
                 }
             });

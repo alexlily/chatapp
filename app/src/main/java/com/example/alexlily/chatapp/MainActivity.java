@@ -58,14 +58,19 @@ public class MainActivity extends Activity {
         context = getApplicationContext();
         messageArea = (LinearLayout) findViewById(R.id.messageArea);
 
-        Intent intent = getIntent(); // contact page sends ContactPageActivity.CONTACT and LoginActivity.USERNAME and ContactPageActivity.TYPE
-        username = intent.getStringExtra(LoginActivity.USERNAME);
-        contact = intent.getStringExtra(ContactPageActivity.CONTACT);
-        type = intent.getStringExtra(ContactPageActivity.TYPE);
+        Intent intent = getIntent();
 
+        username = intent.getStringExtra(getString(R.string.username_label));
+        contact = intent.getStringExtra(getString(R.string.contact_label));
+        type = intent.getStringExtra(getString(R.string.message_type_label));
+        message = intent.getStringExtra(getString(R.string.message_label));
+
+        Log.i(TAG, intent.toString());
         Log.i(TAG, "type is " + type);
         Log.i(TAG, "username is " + username);
-        Log.i(TAG, "contact is is " + contact);
+        Log.i(TAG, "contact is " + contact);
+        Log.i(TAG, "message is " + message);
+
 
         // Check device for Play Services APK. If check succeeds, proceed with GCM registration.
         if (checkPlayServices()) {
@@ -76,13 +81,13 @@ public class MainActivity extends Activity {
                 registerInBackground();
             }
 
-            String contact = intent.getStringExtra(ContactPageActivity.CONTACT);
+            String contact = intent.getStringExtra(getString(R.string.contact_label));
             TextView contactName = (TextView) findViewById(R.id.contactNameArea);
             contactName.setText(contact);
 
-            if (type != null && type.equals(ContactPageActivity.newConvo)){
+            if (type != null && type.equals(getString(R.string.new_convo_label))){
                 Log.i(TAG, "new conversation");
-                new AsyncTask<Void, Void, String>() {
+                new AsyncTask<Void, Void, String>() { // tell the server about it???
                     @Override
                     protected String doInBackground(Void... params) {
                         try {

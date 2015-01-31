@@ -48,7 +48,7 @@ print CONVERSATIONS[0].messages
 def findOrCreate(username, contact):
   for c in CONVERSATIONS:
     if username in c.people and contact in c.people:
-      print "found it! "
+      #print "found it! "
       return c
   return newConversation(username, contact)
 
@@ -111,6 +111,7 @@ def message_callback(session, message):
         elif msg['data']['messageStatus'] == "new message":
           # new message
           print 'new message'
+          print 'message was : ', msg['data']['message']
           saveMessage(conversation, username, contact, msg)
           
     elif msg['message_type'] == 'ack' or msg['message_type'] == 'nack':
@@ -129,6 +130,7 @@ def openConversation(conversation, username, contact, msg):
                      'message':oldMessages,
                      'conversationID': conversation.id
                      }})
+  print "old messages: ", oldMessages
   # send_queue.append({'to': msg['from'],
   #                    'message_id': random_id(),
   #                    'data': {'messageStatus':'new conversation', 
@@ -155,6 +157,7 @@ def saveMessage(conversation, username, contact, msg):
   #                    'message': message,
   #                    'username':username,
   #                    'contact':contact}})
+  print conversation.messages
 
 def send(json_dict):
   template = ("<message><gcm xmlns='google:mobile:data'>{1}</gcm></message>")

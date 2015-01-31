@@ -65,10 +65,7 @@ public class GcmIntentService extends IntentService {
                 String username = extras.getString("username");
                 String contact = extras.getString("contact");
                 sendNotification(message, messageStatus, username, contact);
-                Log.i(TAG, message);
-                Log.i(TAG, messageStatus);
-                Log.i(TAG, username);
-                Log.i(TAG, contact);
+                Log.i(TAG, extras.toString());
 
             }
         }
@@ -83,10 +80,10 @@ public class GcmIntentService extends IntentService {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent i = new Intent(this, MainActivity.class);
-        i.putExtra(ContactPageActivity.MESSAGE, message);
-        i.putExtra(LoginActivity.USERNAME, username);
-        i.putExtra(ContactPageActivity.CONTACT, contact);
-        i.putExtra(ContactPageActivity.TYPE, messageStatus);
+        i.putExtra(getString(R.string.new_message_label), "old messages"); // the old messages, when it's a new/reopened convo, the new message when it's within a conversation already
+        i.putExtra(getString(R.string.username_label), username);
+        i.putExtra(getString(R.string.contact_label), contact);
+        i.putExtra(getString(R.string.message_type_label), "new conversation");
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 i, 0);
