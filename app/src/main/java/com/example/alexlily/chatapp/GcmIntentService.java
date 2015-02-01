@@ -49,23 +49,50 @@ public class GcmIntentService extends IntentService {
                 sendNotification("Deleted messages on server: " + extras.toString(), null, null, null);
                 // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                // This loop represents the service doing some work.
-//                for (int i = 0; i < 5; i++) {
-//                    Log.i(TAG, "Working... " + (i + 1)
-//                            + "/5 @ " + SystemClock.elapsedRealtime());
-//                    try {
-//                        Thread.sleep(5000);
-//                    } catch (InterruptedException e) {
-//                    }
-//                }
-//                Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
-                // Post notification of received message.
-                String message = extras.getString("message");
                 String messageStatus = extras.getString("messageStatus");
-                String username = extras.getString("username");
-                String contact = extras.getString("contact");
-                sendNotification(message, messageStatus, username, contact);
-                Log.i(TAG, extras.toString());
+                Log.i(TAG, "messageStatus is " + messageStatus);
+                // messageStatus is going to be
+                /*
+                * login -> open up contact page
+                * contactpage
+                * new conversation -> open up main activity
+                * new message -> open up main activity
+                * */
+                if (messageStatus.equals("new message") || messageStatus.equals("new conversation")){
+                    Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra(getString(R.string.message_label),intent.getStringExtra("message"));
+                    i.putExtra(getString(R.string.message_type_label), intent.getStringExtra("messageStatus"));
+                    getApplicationContext().startActivity(i);
+                }
+//                else if (messageStatus.equals("new conversation")) {
+//                    Log.i(TAG, "new conversation");
+//                    Intent i = new Intent(getApplicationContext(),MainActivity.class);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    i.putExtra(getString(R.string.message_label),intent.getStringExtra("message"));
+//                    i.putExtra(getString(R.string.message_type_label), intent.getStringExtra("messageStatus"));
+//                    getApplicationContext().startActivity(i);
+//                }
+                else{
+
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra(getString(R.string.message_label), "a message");
+                    i.putExtra(getString(R.string.message_type_label), getString(R.string.new_convo_label));
+                    i.putExtra(getString(R.string.username_label), extras.getString("username"));
+                    i.putExtra(getString(R.string.contact_label), extras.getString("contact"));
+                    i.putExtra(getString(R.string.site_label), extras.getString("site"));
+                    //Log.i(TAG, extras.getString("username") + extras.getString("contact") + extras.getString("site") + "s;dlfjfd");
+                    getApplicationContext().startActivity(i);
+
+                }
+                // Post notification of received message.
+//                String message = extras.getString("message");
+//                String messageStatus = extras.getString("messageStatus");
+//                String username = extras.getString("username");
+//                String contact = extras.getString("contact");
+//                sendNotification(message, messageStatus, username, contact);
+//                Log.i(TAG, extras.toString());
 
             }
         }

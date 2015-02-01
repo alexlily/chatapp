@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 
 public class ContactPageActivity extends Activity {
-    String username;
+    String username, password, sitename;
 
 
     String TAG = "contact page activity";
@@ -26,12 +26,18 @@ public class ContactPageActivity extends Activity {
 
         Intent intent = getIntent();
         username = intent.getStringExtra(getString(R.string.username_label ));
+        password = intent.getStringExtra(getString(R.string.password_label ));
+        sitename = intent.getStringExtra(getString(R.string.site_label));
+
 
         // add in the contact buttons
         Button contactButton;
 
         // fake data
+        // will have to ask for contact list from the server...
         String[] contactList = {getString(R.string.test_receiver), "frodo", "sam"};
+
+
         TextView title = (TextView) findViewById(R.id.contactTitle);
         title.setText(username);
         LinearLayout contactArea = (LinearLayout)findViewById(R.id.contactList);
@@ -58,6 +64,7 @@ public class ContactPageActivity extends Activity {
         }
 
     }
+
 
 
 }

@@ -83,7 +83,7 @@ def random_id():
   return rid
 
 def message_callback(session, message):
-  print 'message received.'
+  #print 'message received.'
   global unacked_messages_quota
   gcm = message.getTags('gcm')
   if gcm:
@@ -99,45 +99,86 @@ def message_callback(session, message):
       # Queue a response back to the server.
       if msg.has_key('from'):
         # Send a dummy echo response back to the app that sent the upstream message.
-        username = msg['data']['username']
-        contact = msg['data']['contact']
-        print 'contact ' + contact
-        print 'username ' + username
-        conversation = findOrCreate(username, contact)
-        if msg['data']['messageStatus'] == "new conversation":
-          # opening conversation
-          print 'new conversation'
-          openConversation(conversation, username, contact, msg)
-        elif msg['data']['messageStatus'] == "new message":
-          # new message
-          print 'new message'
-          print 'message was : ', msg['data']['message']
-          saveMessage(conversation, username, contact, msg)
+        if 'messageStatus' in msg['data'].keys(): # a message I sent.
+          print 'message status is ', msg['data']['messageStatus']
+          messageStatus = msg['data']['messageStatus']
+          if messageStatus == 'from login page':
+            return # later, maybe do something. 
+          else:
+            username = msg['data']['username']
+            contact = msg['data']['contact']
+            conversation = findOrCreate(username, contact)
+            
+
+            print 'contact ' + contact
+            print 'username ' + username
+
+            if messageStatus == "new conversation":
+              # opening conversation
+              print 'new conversation'
+              openConversation(conversation, username, contact, msg)
+            elif messageStatus == "new message":
+              # new message
+              print 'new message'
+              print 'message was : ', msg['data']['message']
+              saveMessage(conversation, username, contact, msg)
+            # send_queue.append({'to': msg['from'],
+            #                     'message_id': random_id(),
+            #                     'data': {'messageStatus': 'new message',
+            #                              'username':msg['data']['username'],
+            #                              'contact':msg['data']['contact'],
+            #                              'message':msg['data']['message'],
+            #                              'site':'some site...'
+            #                              }})
+
+
+
+        #   if msg['data']['messageStatus'] == ''
+
+
+        # if 'username' in msg['data'].keys():
+        #   username = msg['data']['username']
+        #   contact = msg['data']['contact']
+        #   print 'contact ' + contact
+        #   print 'username ' + username
+        #   conversation = findOrCreate(username, contact)
+        #   if msg['data']['messageStatus'] == "new conversation":
+        #     # opening conversation
+        #     print 'new conversation'
+        #     openConversation(conversation, username, contact, msg)
+        #   elif msg['data']['messageStatus'] == "new message":
+        #     # new message
+        #     print 'new message'
+        #     print 'message was : ', msg['data']['message']
+        #     saveMessage(conversation, username, contact, msg)
+        # else:
+        #   print msg['data']['messageStatus']
           
     elif msg['message_type'] == 'ack' or msg['message_type'] == 'nack':
       unacked_messages_quota += 1
 
 def openConversation(conversation, username, contact, msg):
   oldMessages = json.dumps(conversation.messages)
-  #print oldMessages
-  print type(oldMessages)
+  print 'orig'
+  print conversation.messages
+  print 'json'
+  print oldMessages
+  # print type(oldMessages)
   send_queue.append({'to': msg['from'],
                      'message_id': random_id(),
                      'data': {'messageStatus':'new conversation', 
-                     #'message': "start a convo with " + contact,
                      'username':username,
                      'contact':contact,
                      'message':oldMessages,
                      'conversationID': conversation.id
                      }})
-  print "old messages: ", oldMessages
   # send_queue.append({'to': msg['from'],
   #                    'message_id': random_id(),
   #                    'data': {'messageStatus':'new conversation', 
   #                    'conversationID':conversationID(conversation),
   #                    'username': username,
   #                    'contact': contact,
-  #                    'prevMessages': oldMessages}})
+  #                    'message': oldMessages}})
                       # send all the previous messages so that they can reload
 
 # called when username sends msg to contact. 
@@ -151,12 +192,14 @@ def saveMessage(conversation, username, contact, msg):
   #print conversation.messages
   conversation.synchronized = False
   # print conversation.messages
-  # send_queue.append({'to': msg['from'],
-  #                    'message_id': random_id(),
-  #                    'data': {'messageStatus':'new message', 
-  #                    'message': message,
-  #                    'username':username,
-  #                    'contact':contact}})
+  # bounce it back. 
+  message = message + " repeated "
+  send_queue.append({'to': msg['from'],
+                     'message_id': random_id(),
+                     'data': {'messageStatus':'new message', 
+                     'message': message,
+                     'username':username,
+                     'contact':contact}})
   print conversation.messages
 
 def send(json_dict):
@@ -168,7 +211,7 @@ def flush_queued_messages():
   global unacked_messages_quota
   while len(send_queue) and unacked_messages_quota > 0:
     senditem = send_queue.pop(0)
-    print 'going to send', senditem
+    #print 'going to send', senditem
     send(senditem)
     unacked_messages_quota -= 1
 

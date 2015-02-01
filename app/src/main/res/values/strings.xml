@@ -26,7 +26,7 @@
     <string name="username_label">username</string>
     <string name="new_convo_label">new conversation</string>
     <string name="new_message_label">new message</string>
-    <string name="message_type_label">message type</string>
+    <string name="message_type_label">messageStatus</string>
     <string name="message_label">message</string>
 
 </resources>

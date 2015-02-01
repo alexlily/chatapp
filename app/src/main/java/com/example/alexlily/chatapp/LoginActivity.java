@@ -201,23 +201,36 @@ public class LoginActivity extends Activity {
         // Your implementation here.
     }
 
+    public void onClick(View view){
 
+        new AsyncTask<Void, Void, String>() { // the return types and argument types of onPreExecute, doInBackground, and onPostExecute
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Bundle data = new Bundle();
+                    data.putString("messageStatus", "from login page");
+                    String id = Integer.toString(msgId.incrementAndGet());
+                    gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
+                } catch (IOException ex) {
+                }
+                Log.i(TAG, "sent a thing. ");
+                return "from login page";
+            }
+        }.execute(null, null, null);
 
-//    public void onClick(View view){
-//        // To do: check to make sure login credentials are legit.
-//        Intent intent = new Intent(this, ContactPageActivity.class);
-//        loginEditText = (EditText) findViewById(R.id.usernameEditText);
-//        username = loginEditText.getText().toString();
-//        loginEditText = (EditText) findViewById(R.id.passwordEditText);
-//        password = loginEditText.getText().toString();
-//        loginEditText = (EditText) findViewById(R.id.siteNameEditText);
-//        sitename = loginEditText.getText().toString();
-//
-//        intent.putExtra(getString(R.string.username_label), username);
-//        intent.putExtra(getString(R.string.password_label), password);
-//        intent.putExtra(getString(R.string.site_label), sitename);
-//
-//        startActivity(intent);
-//    }
+        Intent intent = new Intent(this, ContactPageActivity.class);
+        loginEditText = (EditText) findViewById(R.id.usernameEditText);
+        username = loginEditText.getText().toString();
+        loginEditText = (EditText) findViewById(R.id.passwordEditText);
+        password = loginEditText.getText().toString();
+        loginEditText = (EditText) findViewById(R.id.siteNameEditText);
+        sitename = loginEditText.getText().toString();
+
+        intent.putExtra(getString(R.string.username_label), username);
+        intent.putExtra(getString(R.string.password_label), password);
+        intent.putExtra(getString(R.string.site_label), sitename);
+        startActivity(intent);
+
+    }
 
 }

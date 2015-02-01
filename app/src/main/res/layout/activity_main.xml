@@ -3,18 +3,19 @@
     tools:context="com.example.alexlily.chatapp.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#E6E6E6">
     <TextView
         style = "@style/mainPageName"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:id="@+id/contactNameArea"
         android:text="contact name"
-        android:layout_weight="1"/>
+        />
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8">
+        android:layout_height="wrap_content"
+        >
 
         <LinearLayout android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -27,16 +28,19 @@
     </ScrollView>
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1">
+        >
         <EditText
             android:id="@+id/writeMessage"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="8"
+            android:textColor="#000000"
             />
         <Button
+            style = "@style/loginPageTopBottom"
+            android:textSize="20dp"
             android:id="@+id/send"
             android:layout_width="0dip"
             android:layout_height="wrap_content"

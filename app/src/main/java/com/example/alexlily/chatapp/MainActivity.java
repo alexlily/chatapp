@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -65,7 +70,7 @@ public class MainActivity extends Activity {
         type = intent.getStringExtra(getString(R.string.message_type_label));
         message = intent.getStringExtra(getString(R.string.message_label));
 
-        Log.i(TAG, intent.toString());
+        //Log.i(TAG, intent.toString());
         Log.i(TAG, "type is " + type);
         Log.i(TAG, "username is " + username);
         Log.i(TAG, "contact is " + contact);
@@ -81,20 +86,20 @@ public class MainActivity extends Activity {
                 registerInBackground();
             }
 
-            String contact = intent.getStringExtra(getString(R.string.contact_label));
+            contact = intent.getStringExtra(getString(R.string.contact_label));
             TextView contactName = (TextView) findViewById(R.id.contactNameArea);
             contactName.setText(contact);
-
             if (type != null && type.equals(getString(R.string.new_convo_label))){
                 Log.i(TAG, "new conversation");
+                // maybe this should be an HTTP request...
                 new AsyncTask<Void, Void, String>() { // tell the server about it???
                     @Override
                     protected String doInBackground(Void... params) {
                         try {
                             Bundle data = new Bundle();
                             data.putString("messageStatus", "new conversation");
-                            data.putString("username", getString(R.string.test_sender)); // change
-                            data.putString("contact", getString(R.string.test_receiver)); // change
+                            data.putString("username", username); // change
+                            data.putString("contact", contact); // change
                             String id = Integer.toString(msgId.incrementAndGet());
                             gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
                             Log.i(TAG, "start a new conversation");
@@ -242,8 +247,8 @@ public class MainActivity extends Activity {
                     try {
                         Bundle data = new Bundle();
                         data.putString("messageStatus", "new message");
-                        data.putString("username", getString(R.string.test_sender)); // change
-                        data.putString("contact", getString(R.string.test_receiver)); // change
+                        data.putString("username", username);
+                        data.putString("contact", contact);
                         data.putString("message", msg);
                         String id = Integer.toString(msgId.incrementAndGet());
                         gcm.send(SENDER_ID + "@gcm.googleapis.com", id, data);
@@ -258,18 +263,46 @@ public class MainActivity extends Activity {
                 protected void onPostExecute(String msg) {
                     newMessage = new TextView(context);
                     newMessage.setText(msg);
+                    newMessage.setTextColor(Color.BLACK);
+                    newMessage.setBackgroundResource(R.drawable.self_message_box);
                     messageArea.addView(newMessage);
                     et.setText("");
-
                 }
             }.execute(null, null, null);
         }
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        // add the new message
+        String msg = intent.getStringExtra(getString(R.string.message_label));
+        String msgtype = intent.getStringExtra(getString(R.string.message_type_label));
+        if (msgtype.equals(getString(R.string.new_convo_label))){
+            Log.i(TAG, "go through the pieces");
+            try {
+                JSONObject obj = new JSONObject(msg);
+                Log.i(TAG, obj.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        newMessage = new TextView(context);
+        newMessage.setText(msg + "\n " + msgtype);
+        newMessage.setTextColor(Color.BLACK);
+        newMessage.setBackgroundResource(R.drawable.contact_message_box);
+        messageArea.addView(newMessage);
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+
 
     /**
      * @return Application's version code from the {@code PackageManager}.
